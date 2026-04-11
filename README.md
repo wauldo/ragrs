@@ -1,8 +1,31 @@
-# ragrs
+<div align="center">
 
-Fast local RAG in Rust. Index, query, verify.
+<br />
 
-> Your RAG works. Until it lies.
+# 🦀 ragrs
+
+### Fast local RAG in Rust — index, query, verify
+
+<br />
+
+**Your RAG works.**
+**Until it lies.**
+
+BM25 + sentence-aware chunking + SQLite FTS5 in a single CLI binary. Optional `--verify` flag calls Wauldo's trust layer to flag contradictions and ungrounded claims before they reach a user.
+
+<br />
+
+[![crates.io](https://img.shields.io/crates/v/ragrs.svg?style=for-the-badge&label=crates.io&color=dea584)](https://crates.io/crates/ragrs)
+[![License: MIT](https://img.shields.io/badge/License-MIT-22c55e?style=for-the-badge)](LICENSE)
+[![Leaderboard](https://img.shields.io/badge/📊_wauldo.com%2Fleaderboard-live-3b82f6?style=for-the-badge)](https://wauldo.com/leaderboard)
+
+<br />
+
+<sub>Rust 1.70+ · MIT · zero-dep binary · ~1 800 LOC · 23 tests · local-first</sub>
+
+</div>
+
+---
 
 ## Install
 
@@ -134,6 +157,26 @@ The included `examples/dataset/` contains documentation for a fictional "Acme Cl
 - [ ] PDF and DOCX ingestion
 - [ ] LLM-powered answer generation
 
-## License
+---
 
-MIT
+## 🔗 Related
+
+- **[wauldo.com](https://wauldo.com)** — platform
+- **[wauldo.com/leaderboard](https://wauldo.com/leaderboard)** — live RAG framework bench (6 frameworks, daily refresh)
+- **[wauldo.com/guard](https://wauldo.com/guard)** — the trust layer called by `--verify`
+- **[github.com/wauldo/wauldo-leaderboard](https://github.com/wauldo/wauldo-leaderboard)** — reproducible bench runner
+- **[github.com/wauldo/wauldo-sdk-rust](https://github.com/wauldo/wauldo-sdk-rust)** — Rust SDK for the hosted API
+
+---
+
+## 📄 License
+
+MIT — see [LICENSE](LICENSE).
+
+<div align="center">
+
+<br />
+
+<sub>Built by the Wauldo team. If this changed your mind about your RAG stack, give it a ⭐.</sub>
+
+</div>
