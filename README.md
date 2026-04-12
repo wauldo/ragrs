@@ -152,7 +152,7 @@ The included `examples/dataset/` contains documentation for a fictional "Acme Cl
 
 ## Roadmap
 
-- [ ] MCP server mode (`ragrs serve --mcp`) — plug into Claude agents and other AI systems
+- [ ] MCP server mode (`ragrs serve --mcp`) — plug into AI agents and MCP-compatible systems
 - [ ] Vector/semantic search (dense retrieval)
 - [ ] PDF and DOCX ingestion
 - [ ] LLM-powered answer generation
