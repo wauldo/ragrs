@@ -167,11 +167,10 @@ impl SqliteStore {
 
     /// Count distinct documents
     pub async fn document_count(&self) -> Result<usize> {
-        let row =
-            sqlx::query("SELECT COUNT(DISTINCT document_id) as cnt FROM chunks")
-                .fetch_one(&self.pool)
-                .await
-                .map_err(|e| RagrsError::Storage(format!("doc_count: {e}")))?;
+        let row = sqlx::query("SELECT COUNT(DISTINCT document_id) as cnt FROM chunks")
+            .fetch_one(&self.pool)
+            .await
+            .map_err(|e| RagrsError::Storage(format!("doc_count: {e}")))?;
         Ok(row.get::<i32, _>("cnt") as usize)
     }
 
@@ -220,8 +219,18 @@ mod tests {
     async fn test_fts_search() {
         let store = SqliteStore::open(":memory:").await.unwrap();
         let chunks = vec![
-            Chunk::new("c1".into(), "Rust is a systems programming language".into(), "doc1.md".into(), 0),
-            Chunk::new("c2".into(), "Python is great for data science".into(), "doc2.md".into(), 0),
+            Chunk::new(
+                "c1".into(),
+                "Rust is a systems programming language".into(),
+                "doc1.md".into(),
+                0,
+            ),
+            Chunk::new(
+                "c2".into(),
+                "Python is great for data science".into(),
+                "doc2.md".into(),
+                0,
+            ),
         ];
         store.insert_chunks(&chunks).await.unwrap();
 

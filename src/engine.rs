@@ -69,15 +69,9 @@ impl RagrsEngine {
     /// Index all .md and .txt files in a directory
     pub async fn index_directory(&self, dir: &Path) -> Result<Vec<IndexResult>> {
         let mut results = Vec::new();
-        let mut entries = tokio::fs::read_dir(dir)
-            .await
-            .map_err(RagrsError::Io)?;
+        let mut entries = tokio::fs::read_dir(dir).await.map_err(RagrsError::Io)?;
 
-        while let Some(entry) = entries
-            .next_entry()
-            .await
-            .map_err(RagrsError::Io)?
-        {
+        while let Some(entry) = entries.next_entry().await.map_err(RagrsError::Io)? {
             let path = entry.path();
             if path.is_file() {
                 if let Some(ext) = path.extension().and_then(|e| e.to_str()) {

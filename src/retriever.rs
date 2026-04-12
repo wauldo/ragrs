@@ -22,8 +22,8 @@ pub fn retrieve(chunks: &[Chunk], query: &str, top_k: usize) -> Vec<ScoredChunk>
         .collect();
 
     let idf_scores = compute_idf(&doc_stats, query);
-    let avg_doc_len = doc_stats.iter().map(|d| d.length).sum::<usize>() as f32
-        / doc_stats.len().max(1) as f32;
+    let avg_doc_len =
+        doc_stats.iter().map(|d| d.length).sum::<usize>() as f32 / doc_stats.len().max(1) as f32;
 
     let mut scored: Vec<ScoredChunk> = chunks
         .iter()
@@ -37,7 +37,11 @@ pub fn retrieve(chunks: &[Chunk], query: &str, top_k: usize) -> Vec<ScoredChunk>
         })
         .collect();
 
-    scored.sort_by(|a, b| b.score.partial_cmp(&a.score).unwrap_or(std::cmp::Ordering::Equal));
+    scored.sort_by(|a, b| {
+        b.score
+            .partial_cmp(&a.score)
+            .unwrap_or(std::cmp::Ordering::Equal)
+    });
     scored.truncate(top_k);
     scored
 }
@@ -49,9 +53,24 @@ mod tests {
     #[test]
     fn test_retrieve_ranks_correctly() {
         let chunks = vec![
-            Chunk::new("c1".into(), "Rust is a systems programming language".into(), "doc1.md".into(), 0),
-            Chunk::new("c2".into(), "Python is great for data science".into(), "doc2.md".into(), 0),
-            Chunk::new("c3".into(), "Cooking recipes for pasta".into(), "doc3.md".into(), 0),
+            Chunk::new(
+                "c1".into(),
+                "Rust is a systems programming language".into(),
+                "doc1.md".into(),
+                0,
+            ),
+            Chunk::new(
+                "c2".into(),
+                "Python is great for data science".into(),
+                "doc2.md".into(),
+                0,
+            ),
+            Chunk::new(
+                "c3".into(),
+                "Cooking recipes for pasta".into(),
+                "doc3.md".into(),
+                0,
+            ),
         ];
 
         let results = retrieve(&chunks, "Rust programming", 5);
@@ -70,7 +89,14 @@ mod tests {
     #[test]
     fn test_retrieve_top_k() {
         let chunks: Vec<Chunk> = (0..10)
-            .map(|i| Chunk::new(format!("c{i}"), format!("document number {i} about testing"), "doc.md".into(), i))
+            .map(|i| {
+                Chunk::new(
+                    format!("c{i}"),
+                    format!("document number {i} about testing"),
+                    "doc.md".into(),
+                    i,
+                )
+            })
             .collect();
         let results = retrieve(&chunks, "testing", 3);
         assert_eq!(results.len(), 3);

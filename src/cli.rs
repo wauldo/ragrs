@@ -82,7 +82,11 @@ async fn cmd_index(path: PathBuf) -> crate::error::Result<()> {
             result.chunks,
         );
     } else {
-        eprintln!("  {} Path not found: {}", "Error".red().bold(), path.display());
+        eprintln!(
+            "  {} Path not found: {}",
+            "Error".red().bold(),
+            path.display()
+        );
     }
 
     Ok(())
@@ -93,7 +97,10 @@ async fn cmd_query(question: String, top_k: usize, verify: bool) -> crate::error
 
     let chunks = engine.get_chunks().await?;
     if chunks.is_empty() {
-        println!("  {} No documents indexed. Run `ragrs index <path>` first.", "Error".red().bold());
+        println!(
+            "  {} No documents indexed. Run `ragrs index <path>` first.",
+            "Error".red().bold()
+        );
         return Ok(());
     }
 
@@ -130,10 +137,7 @@ async fn cmd_query(question: String, top_k: usize, verify: bool) -> crate::error
     Ok(())
 }
 
-async fn run_verification(
-    scored: &[crate::retriever::ScoredChunk],
-    question: &str,
-) {
+async fn run_verification(scored: &[crate::retriever::ScoredChunk], question: &str) {
     let api_key = match std::env::var("WAULDO_API_KEY") {
         Ok(key) if !key.is_empty() => key,
         _ => {
@@ -159,7 +163,14 @@ async fn run_verification(
         .iter()
         .take(3)
         .enumerate()
-        .map(|(i, s)| format!("[Source {}] {}: {}", i + 1, s.chunk.metadata.source, s.chunk.content))
+        .map(|(i, s)| {
+            format!(
+                "[Source {}] {}: {}",
+                i + 1,
+                s.chunk.metadata.source,
+                s.chunk.content
+            )
+        })
         .collect::<Vec<_>>()
         .join("\n\n");
 
@@ -171,14 +182,24 @@ async fn run_verification(
                 _ => result.verdict.yellow().bold(),
             };
 
-            println!("  {}", "── Verification ──────────────────────────".dimmed());
+            println!(
+                "  {}",
+                "── Verification ──────────────────────────".dimmed()
+            );
             println!("  Verdict:  {}", verdict_colored);
             if let Some(reason) = &result.reason {
                 println!("  Reason:   {}", reason);
             }
             println!("  Trust:    {:.2}", result.confidence);
-            println!("  {}", "───────────────────────────────────────────".dimmed());
-            println!("  Verify your RAG {} {}\n", "→".dimmed(), "wauldo.com/guard".underline());
+            println!(
+                "  {}",
+                "───────────────────────────────────────────".dimmed()
+            );
+            println!(
+                "  Verify your RAG {} {}\n",
+                "→".dimmed(),
+                "wauldo.com/guard".underline()
+            );
         }
         Err(e) => {
             println!("  {} Verification failed: {}\n", "Error".red().bold(), e);
@@ -228,7 +249,10 @@ fn strip_markdown(text: &str) -> String {
 /// Extract the most relevant snippet from content based on query terms
 fn extract_relevant_snippet(content: &str, query: &str, max_chars: usize) -> String {
     let clean = strip_markdown(content);
-    let clean: String = clean.chars().filter(|c| !c.is_control() || *c == ' ').collect();
+    let clean: String = clean
+        .chars()
+        .filter(|c| !c.is_control() || *c == ' ')
+        .collect();
 
     // Split into sentences
     let sentences: Vec<&str> = clean

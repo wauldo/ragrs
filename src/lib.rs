@@ -26,8 +26,8 @@ pub mod retriever;
 pub mod store;
 pub mod token_counter;
 pub mod tokenize;
-pub mod verify;
 pub mod types;
+pub mod verify;
 
 pub use engine::{IndexResult, QueryResult, RagrsEngine, Source};
 pub use error::{RagrsError, Result};
